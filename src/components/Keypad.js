@@ -4,10 +4,11 @@ export default function Keypad({ usedKeys }) {
   const [letters, setLetters] = useState(null)
 
   useEffect(() => {
-    fetch('http://localhost:3001/letters')
+    fetch("https://react-http-requests-b1189-default-rtdb.europe-west1.firebasedatabase.app/alphabetLetters.json")
       .then(res => res.json())
       .then(json => {
-        setLetters(json)
+        const letters = json[Object.keys(json)]
+        setLetters(letters)
       })
   }, [])
 

@@ -1,26 +1,27 @@
-import { useEffect, useState } from 'react'
-import Wordle from './components/Wordle'
+import { useEffect, useState } from "react";
+import Wordle from "./components/Wordle";
+
 
 function App() {
-  const [solution, setSolution] = useState(null)
-  
+  const [solution, setSolution] = useState(null);
+
   useEffect(() => {
-    fetch('http://localhost:3001/solutions')
-      .then(res => res.json())
-      .then(json => {
-        // random int between 0 & 14
-        const randomSolution = json[Math.floor(Math.random()*json.length)]
-        setSolution(randomSolution.word)
+    fetch("https://react-http-requests-b1189-default-rtdb.europe-west1.firebasedatabase.app/solutions.json")
+      .then((res) => res.json())
+      .then((json) => {
+        const solutionWords = json[Object.keys(json)]
+        const randomSolution = solutionWords[Math.floor(Math.random() * solutionWords.length)];
+        setSolution(randomSolution.word);
       })
-  }, [setSolution])
+      .catch(error=>console.log(error));
+  }, [setSolution]);
 
   return (
     <div className="App">
       <h1>Wordle</h1>
       {solution && <Wordle solution={solution} />}
     </div>
-  )
+  );
 }
 
-export default App
-
+export default App;
